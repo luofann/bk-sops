@@ -10,23 +10,34 @@
 * specific language governing permissions and limitations under the License.
 */
 <template>
-    <bk-dialog
-        :quick-close="false"
-        :has-header="true"
+    <!-- <bk-dialog
+        width="400"
+        :theme="'primary'"
+        :mask-close="false"
+        :header-position="'center'"
         :ext-cls="'common-dialog'"
         :title="i18n.deleteTips"
+        :value="isDeleteDialogShow"
+        @confirm="onDeletePeriodicConfrim"
+        @cancel="onDeletePeriodicCancel"> -->
+    <bk-dialog
         width="400"
-        :is-show.sync="isDeleteDialogShow"
+        :ext-cls="'common-dialog'"
+        :theme="'primary'"
+        :mask-close="false"
+        :header-position="'center'"
+        :title="i18n.deleteTips"
+        :value="isDeleteDialogShow"
+        :draggable="true"
         @confirm="onDeletePeriodicConfrim"
         @cancel="onDeletePeriodicCancel">
-        <div slot="content" v-bkloading="{ isLoading: deleting, opacity: 1 }">
+        <div v-bkloading="{ isLoading: deleting, opacity: 1 }">
             <div class="information-tips">{{deleteInfo}}</div>
         </div>
     </bk-dialog>
 </template>
 <script>
     import '@/utils/i18n.js'
-
     export default {
         name: 'DeletePeriodicDialog',
         props: ['isDeleteDialogShow', 'templateName', 'deleting'],

@@ -16,9 +16,9 @@
             <div class="task-table-content">
                 <bk-button
                     ref="childComponent"
-                    type="primary"
+                    theme="primary"
                     class="task-create-btn"
-                    size="small"
+                    size="normal"
                     @click="onCreatePeriodTask">
                     {{i18n.createPeriodTask}}
                 </bk-button>
@@ -35,21 +35,41 @@
                     <div class="periodic-query-content">
                         <div class="query-content">
                             <span class="query-span">{{i18n.creator}}</span>
-                            <input v-model="creator" class="search-input" :placeholder="i18n.creatorPlaceholder" />
+                            <bk-input
+                                v-model="creator"
+                                class="bk-input-inline"
+                                :clearable="true"
+                                :placeholder="i18n.creatorPlaceholder">
+                            </bk-input>
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.enabled}}</span>
-                            <bk-selector
+                            <!-- <bk-selector
                                 :placeholder="i18n.enabledPlaceholder"
                                 :list="enabledList"
                                 :selected.sync="enabledSync"
                                 :allow-clear="true"
                                 @clear="onClearSelectedEnabled"
                                 @item-selected="onSelectEnabled">
-                            </bk-selector>
+                            </bk-selector> -->
+                            <bk-select
+                                class="bk-select-inline"
+                                v-model="enabledSync"
+                                :popover-width="260"
+                                :placeholder="i18n.enabledPlaceholder"
+                                :clearable="true"
+                                @clear="onClearSelectedEnabled"
+                                @selected="onSelectEnabled">
+                                <bk-option
+                                    v-for="(option, index) in enabledList"
+                                    :key="index"
+                                    :id="option.id"
+                                    :name="option.name">
+                                </bk-option>
+                            </bk-select>
                         </div>
                         <div class="query-button">
-                            <bk-button class="query-primary" type="primary" @click="searchInputhandler">{{i18n.query}}</bk-button>
+                            <bk-button class="query-primary" theme="primary" @click="searchInputhandler">{{i18n.query}}</bk-button>
                             <bk-button class="query-cancel" @click="onResetForm">{{i18n.reset}}</bk-button>
                         </div>
                     </div>
@@ -131,11 +151,19 @@
                     <div class="page-info">
                         <span> {{i18n.total}} {{totalCount}} {{i18n.item}}{{i18n.comma}} {{i18n.currentPageTip}} {{currentPage}} {{i18n.page}}</span>
                     </div>
-                    <bk-paging
+                    <!-- <bk-paging
                         :cur-page.sync="currentPage"
                         :total-page="totalPage"
                         @page-change="onPageChange">
-                    </bk-paging>
+                    </bk-paging> -->
+                    <bk-pagination
+                        :current.sync="currentPage"
+                        :count="totalCount"
+                        :limit="countPerPage"
+                        :limit-list="[15,20,30]"
+                        :show-limit="false"
+                        @change="onPageChange">
+                    </bk-pagination>
                 </div>
             </div>
         </div>
@@ -149,7 +177,6 @@
             @onCreateTaskCancel="onCreateTaskCancel">
         </TaskCreateDialog>
         <ModifyPeriodicDialog
-            v-if="isModifyDialogShow"
             :loading="modifyDialogLoading"
             :constants="constants"
             :cron="selectedCron"
@@ -159,7 +186,6 @@
             @onModifyPeriodicCancel="onModifyPeriodicCancel">
         </ModifyPeriodicDialog>
         <DeletePeriodicDialog
-            v-if="isDeleteDialogShow"
             :is-delete-dialog-show="isDeleteDialogShow"
             :template-name="selectedTemplateName"
             :deleting="deleting"
@@ -243,11 +269,11 @@
                 periodicList: [],
                 isModifyDialogShow: false,
                 selectedCron: undefined,
-                constants: undefined,
+                constants: {},
                 modifyDialogLoading: false,
                 selectedTemplateName: undefined,
                 periodicName: undefined,
-                enabledSync: -1,
+                enabledSync: '',
                 periodEntrance: '',
                 taskCategory: []
             }
@@ -275,7 +301,7 @@
                         offset: (this.currentPage - 1) * this.countPerPage,
                         task__celery_task__enabled: this.enabled,
                         task__creator__contains: this.creator,
-                        task__name__contains: this.periodicName
+                        task__name__contains: this.periodicName || undefined
                     }
                     const periodicListData = await this.loadPeriodicList(data)
                     const list = periodicListData.objects
@@ -402,7 +428,7 @@
                 this.periodicName = undefined
                 this.creator = undefined
                 this.enabled = undefined
-                this.enabledSync = -1
+                this.enabledSync = ''
             },
             onAdvanceShow () {
                 this.isAdvancedSerachShow = !this.isAdvancedSerachShow
@@ -464,7 +490,11 @@
                     min-width: 100px;
                 }
             }
-            .bk-selector {
+            .bk-select-inline {
+                display: inline-block;
+                width: 260px;
+            }
+            .bk-input-inline {
                 display: inline-block;
                 width: 260px;
             }
