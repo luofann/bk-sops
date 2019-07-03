@@ -27,15 +27,14 @@
             <!-- 自动生成 -->
             <bk-tab
                 v-show="currentWay === 'selectGeneration'"
-                :type="'fill'"
-                :size="'small'"
-                :active-name="tabName"
+                :type="'card'"
+                :active="tabName"
                 @tab-changed="tabChanged">
-                <bk-tabpanel
+                <bk-tab-panel
                     v-for="(item, index) in autoRuleList"
                     :key="index"
                     :name="item.key"
-                    :title="item.title">
+                    :label="item.title">
                     <div class="tabpanel-container">
                         <div class="radio-group">
                             <div class="radio-item loop-radio">
@@ -89,8 +88,8 @@
                             <!-- 星期说明 -->
                             <i
                                 v-if="item.key === 'week'"
-                                v-bktooltips.right="i18n.monthTips"
-                                class="common-icon-tooltips month-tips"></i>
+                                v-bk-tooltips="i18n.monthTips"
+                                class="common-icon-tooltips month-tips top-start"></i>
                             <!-- startInput 错误提示 -->
                             <div
                                 v-show="errors.has(item.key + 'Rule')"
@@ -129,7 +128,7 @@
                             </span>
                         </div>
                     </div>
-                </bk-tabpanel>
+                </bk-tab-panel>
             </bk-tab>
             <!-- 手动输入 -->
             <!-- @input="onInputName" @blur="onInputBlur" @enter="onInputBlur"-->
@@ -144,8 +143,12 @@
                     :placeholder="i18n.placeholder" />
             </div>
         </div>
+        <i class="common-icon-tooltips rule-tips" v-bk-tooltips="ruleTipsHtmlConfig"></i>
+        <div id="periodic-cron-tips-html">
+            <img class="ui-img" :src="periodicCronImg">
+        </div>
         <!-- 说明 -->
-        <bk-tooltip
+        <!-- <bk-tooltip
             placement="bottom-end"
             class="periodic-img-tooltip">
             <i class="common-icon-tooltips"></i>
@@ -153,7 +156,7 @@
                 <img class="ui-img"
                     :src="periodicCronImg">
             </div>
-        </bk-tooltip>
+        </bk-tooltip> -->
         <span
             v-show="errors.has('periodicCron') && currentWay === 'manualInput'"
             class="common-error-tip error-msg">{{ errors.first('periodicCron') }}</span>
@@ -307,7 +310,15 @@
                 tabName: 'min',
                 tName: '',
                 periodicCron: '',
-                templateNameRule: ''
+                templateNameRule: '',
+                ruleTipsHtmlConfig: {
+                    allowHtml: true,
+                    width: 560,
+                    trigger: 'mouseenter',
+                    theme: 'light',
+                    content: '#periodic-cron-tips-html',
+                    placement: 'bottom'
+                }
             }
         },
         computed: {
@@ -560,6 +571,13 @@ $bgBlue: #3a84ff;
         background: $bgBlue;
         border-color: $bgBlue;
     }
+}
+.rule-tips {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: -20px;
+    margin-top: 8px;
 }
 .local-error-tip {
     margin-top: 10px;
