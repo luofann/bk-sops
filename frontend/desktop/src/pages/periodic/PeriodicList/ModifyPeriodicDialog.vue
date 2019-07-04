@@ -10,15 +10,6 @@
 * specific language governing permissions and limitations under the License.
 */
 <template>
-    <!-- <bk-dialog
-        :quick-close="false"
-        :has-header="true"
-        :ext-cls="'common-dialog'"
-        :title="i18n.modifyTask"
-        width="610"
-        :is-show.sync="isModifyDialogShow"
-        @confirm="onModifyPeriodicConfirm"
-        @cancel="onModifyPeriodicCancel"> -->
     <bk-dialog
         width="600"
         :ext-cls="'common-dialog'"
@@ -33,22 +24,6 @@
             <div class="periodic-info">
                 <h3 class="common-section-title">{{ i18n.periodicInfo }}</h3>
                 <div class="common-form-item">
-                    <!-- <label class="required">{{i18n.periodicRule}}</label>
-                    <div class="common-form-content">
-                        <bk-input
-                            :clearable="true"
-                            name="periodicCron"
-                            v-model="periodicCron"
-                            v-validate="periodicRule">
-                        </bk-input>
-                        <span v-show="errors.has('periodicCron')" class="common-error-tip error-msg">{{ errors.first('periodicCron') }}</span>
-                        <bk-tooltip placement="bottom-start" class="periodic-img-tooltip">
-                            <i class="bk-icon icon-info-circle"></i>
-                            <div slot="content">
-                                <img :src="periodicCronImg" alt="i18n.errorPicture">
-                            </div>
-                        </bk-tooltip>
-                    </div> -->
                     <LoopRuleSelect
                         ref="loopRuleSelect"
                         :manual-input-value="periodicCron" />

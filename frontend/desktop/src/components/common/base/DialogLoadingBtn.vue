@@ -15,7 +15,7 @@
             class="dialog-Btn"
             v-for="(item, index) in dialogFooterData"
             :key="index"
-            :type="item.type"
+            :theme="item.type"
             :icon="item.icon"
             :loading="item.loading"
             :disabled="item.disabled"

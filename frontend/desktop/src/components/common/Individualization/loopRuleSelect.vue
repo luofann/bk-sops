@@ -68,7 +68,7 @@
                                 </label>
                             </div>
                         </div>
-                        <!-- 循环 -->
+                        <!-- 循环生成 -->
                         <div
                             v-if="item.radio === 0"
                             class="loop-select-bd">
@@ -131,7 +131,6 @@
                 </bk-tab-panel>
             </bk-tab>
             <!-- 手动输入 -->
-            <!-- @input="onInputName" @blur="onInputBlur" @enter="onInputBlur"-->
             <div
                 v-show="currentWay === 'manualInput'"
                 class="hand-input">
@@ -144,19 +143,11 @@
             </div>
         </div>
         <i class="common-icon-tooltips rule-tips" v-bk-tooltips="ruleTipsHtmlConfig"></i>
+        <!-- corn 规则 tips -->
         <div id="periodic-cron-tips-html">
             <img class="ui-img" :src="periodicCronImg">
         </div>
-        <!-- 说明 -->
-        <!-- <bk-tooltip
-            placement="bottom-end"
-            class="periodic-img-tooltip">
-            <i class="common-icon-tooltips"></i>
-            <div slot="content">
-                <img class="ui-img"
-                    :src="periodicCronImg">
-            </div>
-        </bk-tooltip> -->
+        <!-- 手动输入错误提示 -->
         <span
             v-show="errors.has('periodicCron') && currentWay === 'manualInput'"
             class="common-error-tip error-msg">{{ errors.first('periodicCron') }}</span>
@@ -338,6 +329,16 @@
         created () {
             this.initializeAutoRuleListData()
             this.renderRule()
+            // this.$nextTick(() => {
+            //     this.ruleTipsHtmlConfig = {
+            //         allowHtml: true,
+            //         width: 560,
+            //         trigger: 'mouseenter',
+            //         theme: 'light',
+            //         content: '#periodic-cron-tips-html',
+            //         placement: 'bottom'
+            //     }
+            // })
         },
         methods: {
             onSwitchWay (way) {
