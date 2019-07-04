@@ -15,7 +15,7 @@
         :ext-cls="'common-dialog'"
         :theme="'primary'"
         :mask-close="false"
-        :header-position="'center'"
+        :header-position="'left'"
         :title="i18n.modifyTask"
         :value="isModifyDialogShow"
         @confirm="onModifyPeriodicConfirm"
@@ -209,6 +209,7 @@
                         'theme': 'error'
                     })
                 }
+                this.dialogFooterData[0].loading = false
                 this.dialogFooterData.confirmBtnPending = false
                 this.$emit('onModifyPeriodicConfirm')
             }

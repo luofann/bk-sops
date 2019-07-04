@@ -51,8 +51,8 @@
 </script>
 <style lang="scss">
 .btn-wrapper {
-    float: right;
-    margin: 0 16px 2px 0;
+    // float: right;
+    // margin: 0 16px 2px 0;
     .dialog-Btn {
         min-width: 120px;
         height: 32px;
