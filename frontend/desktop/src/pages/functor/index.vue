@@ -14,7 +14,7 @@
         <div class="list-wrapper">
             <BaseTitle :title="i18n.functorList"></BaseTitle>
             <div class="operation-area clearfix">
-                <bk-button type="primary" class="task-create-btn" size="small" @click="onCreateTask">{{i18n.new}}</bk-button>
+                <bk-button theme="primary" class="task-create-btn" @click="onCreateTask">{{i18n.new}}</bk-button>
                 <BaseSearch
                     v-model="searchStr"
                     :input-placeholader="i18n.placeholder"
@@ -27,7 +27,7 @@
                     <div class="functor-query-content">
                         <div class="query-content">
                             <span class="query-span">{{i18n.ownBusiness}}</span>
-                            <bk-selector
+                            <!-- <bk-selector
                                 :list="business.list"
                                 :display-key="'cc_name'"
                                 :setting-name="'cc_id'"
@@ -38,25 +38,45 @@
                                 :searchable="true"
                                 :allow-clear="true"
                                 @item-selected="onSelectedBizCcId">
-                            </bk-selector>
+                            </bk-selector> -->
+                            <bk-select
+                                v-model="selectedCcId"
+                                class="bk-select-inline"
+                                :popover-width="260"
+                                :searchable="true"
+                                :placeholder="i18n.choice"
+                                :clearable="true"
+                                @selected="onSelectedBizCcId">
+                                <bk-option
+                                    v-for="(option, index) in business.list"
+                                    :key="index"
+                                    :id="option.cc_id"
+                                    :name="option.cc_name">
+                                </bk-option>
+                            </bk-select>
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.billTime}}</span>
-                            <bk-date-range
-                                :range-separator="'-'"
-                                :quick-select="false"
-                                :start-date.sync="executeStartTime"
-                                :end-date.sync="executeEndTime"
+                            <bk-date-picker
+                                ref="bkRanger"
+                                :placeholder="'选择日期时间范围'"
+                                :type="'daterange'"
                                 @change="onChangeExecuteTime">
-                            </bk-date-range>
+                            </bk-date-picker>
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.creator}}</span>
-                            <input class="search-input" v-model="creator" :placeholder="i18n.creatorPlaceholder" />
+                            <!-- <input class="search-input" v-model="creator" :placeholder="i18n.creatorPlaceholder" /> -->
+                            <bk-input
+                                v-model="creator"
+                                class="bk-input-inline"
+                                :clearable="true"
+                                :placeholder="i18n.creatorPlaceholder">
+                            </bk-input>
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.status}}</span>
-                            <bk-selector
+                            <!-- <bk-selector
                                 :placeholder="i18n.statusPlaceholder"
                                 :list="statusList"
                                 :selected.sync="statusSync"
@@ -64,10 +84,26 @@
                                 :searchable="true"
                                 @clear="onClearStatus"
                                 @item-selected="onSelectedStatus">
-                            </bk-selector>
+                            </bk-selector> -->
+                            <bk-select
+                                v-model="statusSync"
+                                class="bk-select-inline"
+                                :popover-width="260"
+                                :searchable="true"
+                                :placeholder="i18n.statusPlaceholder"
+                                :clearable="true"
+                                @clear="onClearStatus"
+                                @selected="onSelectedBizCcId">
+                                <bk-option
+                                    v-for="(option, index) in statusList"
+                                    :key="index"
+                                    :id="option.id"
+                                    :name="option.name">
+                                </bk-option>
+                            </bk-select>
                         </div>
                         <div class="query-button">
-                            <bk-button class="query-primary" type="primary" @click="searchInputhandler">{{i18n.query}}</bk-button>
+                            <bk-button class="query-primary" theme="primary" @click="searchInputhandler">{{i18n.query}}</bk-button>
                             <bk-button class="query-cancel" @click="onResetForm">{{i18n.reset}}</bk-button>
                         </div>
                     </div>
@@ -140,7 +176,7 @@
             </div>
         </div>
         <CopyrightFooter></CopyrightFooter>
-        <bk-dialog
+        <!-- <bk-dialog
             :is-show.sync="isShowNewTaskDialog"
             @confirm="onConfirmlNewTask"
             @cancel="onCancelNewTask"
@@ -150,12 +186,23 @@
             :close-icon="false"
             width="600"
             padding="30px"
-            :title="i18n.new">
-            <div slot="content">
+            :title="i18n.new"> -->
+        <bk-dialog
+            width="600"
+            ext-cls="common-dialog"
+            padding="30px"
+            :theme="'primary'"
+            :mask-close="false"
+            :header-position="'left'"
+            :title="i18n.new"
+            :value="isShowNewTaskDialog"
+            @confirm="onConfirmlNewTask"
+            @cancel="onCancelNewTask">
+            <div>
                 <div class="common-form-item">
                     <label>{{i18n.choiceBusiness}}</label>
                     <div class="common-form-content">
-                        <bk-selector
+                        <!-- <bk-selector
                             :allow-clear="true"
                             :list="business.list"
                             :selected="business.id"
@@ -166,14 +213,31 @@
                             :searchable="business.searchable"
                             @item-selected="onSelectedBusiness"
                             @clear="onClearBusiness">
-                        </bk-selector>
+                        </bk-selector> -->
+                        <bk-select
+                            v-model="business.id"
+                            class="bk-select-inline"
+                            :popover-width="260"
+                            :searchable="true"
+                            :is-loading="business.loading"
+                            :placeholder="i18n.statusPlaceholder"
+                            :clearable="true"
+                            @clear="onClearBusiness"
+                            @selected="onSelectedBusiness">
+                            <bk-option
+                                v-for="(option, index) in business.list"
+                                :key="index"
+                                :id="option.cc_id"
+                                :name="option.cc_name">
+                            </bk-option>
+                        </bk-select>
                         <span v-show="business.empty" class="common-error-tip error-msg">{{i18n.choiceBusiness}}</span>
                     </div>
                 </div>
                 <div class="common-form-item">
                     <label>{{i18n.choiceTemplate}}</label>
                     <div class="common-form-content">
-                        <bk-selector
+                        <!-- <bk-selector
                             setting-key="id"
                             display-key="name"
                             ext-cls="template-selector"
@@ -186,13 +250,59 @@
                             :disabled="template.disabled"
                             @item-selected="onSelectedTemplate"
                             @clear="onClearTemplate">
-                        </bk-selector>
-                        <bk-tooltip placement="left" width="400" class="template-tooltip">
+                        </bk-selector> -->
+                        <!-- <bk-select
+                            v-model="business.id"
+                            class="bk-select-inline template-selector"
+                            :popover-width="260"
+                            :searchable="true"
+                            :is-loading="business.loading"
+                            :placeholder="i18n.statusPlaceholder"
+                            :clearable="true"
+                            @clear="onClearBusiness"
+                            @selected="onSelectedBusiness">
+                            <bk-option
+                                v-for="(option, index) in template.list"
+                                :key="index"
+                                :id="option.id"
+                                :name="option.name">
+                            </bk-option>
+                        </bk-select> -->
+                        <bk-select
+                            v-model="template.id"
+                            style="width: 260px;"
+                            :popover-width="260"
+                            :is-loading="business.loading"
+                            :searchable="template.searchable"
+                            :placeholder="i18n.statusPlaceholder"
+                            :clearable="true"
+                            :disabled="template.disabled"
+                            @selected="onSelectedTemplate"
+                            @clear="onClearTemplate">
+                            <bk-option-group
+                                v-for="(group, index) in template.list"
+                                :name="group.name"
+                                :key="index">
+                                <bk-option v-for="(childOption, childIndex) in group.children"
+                                    :key="childIndex"
+                                    :id="childOption.id"
+                                    :name="childOption.name">
+                                </bk-option>
+                            </bk-option-group>
+                        </bk-select>
+                        <i
+                            style="display:inline-block"
+                            class="bk-icon icon-info-circle"
+                            v-bk-tooltips="{
+                                width: 400,
+                                placement: 'left-start',
+                                content: i18n.tips }"></i>
+                        <!-- <bk-tooltip placement="left" width="400" class="template-tooltip">
                             <i class="bk-icon icon-info-circle"></i>
                             <div slot="content" style="white-space: normal;">
                                 <div>{{i18n.tips}}</div>
                             </div>
-                        </bk-tooltip>
+                        </bk-tooltip> -->
                         <span v-show="template.empty" class="common-error-tip error-msg">{{i18n.choiceTemplate}}</span>
                     </div>
                 </div>
@@ -257,13 +367,13 @@
                     reset: gettext('清空')
                 },
                 listLoading: true,
-                selectedCcId: -1,
+                selectedCcId: '',
                 currentPage: 1,
                 totalPage: 1,
                 countPerPage: 15,
                 totalCount: 0,
                 functorSync: 0,
-                statusSync: 0,
+                statusSync: '',
                 searchStr: undefined,
                 isShowNewTaskDialog: false,
                 functorBasicInfoLoading: true,
@@ -290,7 +400,7 @@
                     searchable: true,
                     id: '',
                     empty: false,
-                    disabled: true
+                    disabled: false
                 },
                 bizCcId: undefined,
                 billTime: undefined,
@@ -526,10 +636,9 @@
             onAdvanceShow () {
                 this.isAdvancedSerachShow = !this.isAdvancedSerachShow
             },
-            onChangeExecuteTime (oldValue, newValue) {
-                const timeArray = newValue.split(' - ')
-                this.executeStartTime = timeArray[0]
-                this.executeEndTime = timeArray[1]
+            onChangeExecuteTime (Value) {
+                this.executeStartTime = Value[0]
+                this.executeEndTime = Value[1]
             },
             onClearStatus () {
                 this.isStarted = undefined
@@ -538,7 +647,7 @@
             onResetForm () {
                 this.status = undefined
                 this.creator = undefined
-                this.statusSync = 0
+                this.statusSync = ''
                 this.selectedCcId = 0
                 this.funtorSync = 0
                 this.executeStartTime = undefined
@@ -552,6 +661,10 @@
 </script>
 <style lang='scss' scoped>
 @import '@/scss/config.scss';
+.bk-select-inline,.bk-input-inline {
+    display: inline-block;
+    width: 260px;
+}
 label.required:after {
     content: '*';
     position: absolute;
