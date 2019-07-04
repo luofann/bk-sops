@@ -25,7 +25,7 @@
         :ext-cls="'common-dialog'"
         :theme="'primary'"
         :mask-close="false"
-        :header-position="'center'"
+        :header-position="'left'"
         :title="i18n.deleteTips"
         :value="isDeleteDialogShow"
         :draggable="true"

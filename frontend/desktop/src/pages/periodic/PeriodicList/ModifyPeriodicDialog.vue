@@ -26,6 +26,7 @@
                 <div class="common-form-item">
                     <LoopRuleSelect
                         ref="loopRuleSelect"
+                        class="loop-rule"
                         :manual-input-value="periodicCron" />
                 </div>
                 <div
@@ -224,7 +225,7 @@
     overflow-y: auto;
 }
 .periodic-info {
-    padding-bottom: 40px;
+    padding: 20px;
 }
 .common-section-title {
     margin-bottom: 24px;

@@ -6,7 +6,7 @@
         ext-cls="common-dialog"
         :theme="'primary'"
         :mask-close="false"
-        :header-position="'center'"
+        :header-position="'left'"
         :title="i18n.title"
         :value="isNewTaskDialogShow"
         @confirm="onCreateTask"
