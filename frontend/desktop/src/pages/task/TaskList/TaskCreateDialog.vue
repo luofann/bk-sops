@@ -154,7 +154,7 @@
             templateCategories () {
                 const list = toolsUtils.deepClone(this.taskCategory)
                 list.unshift({ value: 'all', name: gettext('全部分类') })
-                return list.map(m => ({ id: m.value, name: m.name }))
+                return list.map(m => ({ id: m.value || m.id, name: m.name }))
             },
             categoryListPending () {
                 return this.taskCategory.length !== 0 && this.taskListPending === false

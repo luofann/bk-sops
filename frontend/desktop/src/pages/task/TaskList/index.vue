@@ -47,6 +47,7 @@
                             </bk-date-range> -->
                             <bk-date-picker
                                 ref="bkRanger"
+                                v-model="TimeRange"
                                 :placeholder="'选择日期时间范围'"
                                 :type="'daterange'"
                                 @change="onChangeExecuteTime">
@@ -317,6 +318,7 @@
                 activeTaskCategory: undefined, // 任务类型筛选
                 searchStr: '',
                 executeStatus: [], // 任务执行状态
+                TimeRange: ['', ''],
                 currentPage: 1,
                 totalPage: 1,
                 countPerPage: 15,
@@ -624,7 +626,7 @@
                 this.getTaskList()
             },
             onResetForm () {
-                this.$refs.bkRanger.clear()
+                this.TimeRange = ['', '']
                 this.isStarted = undefined
                 this.isFinished = undefined
                 this.createMethod = ''
@@ -645,7 +647,6 @@
                 try {
                     const createMethodData = await this.loadCreateMethod()
                     this.taskCreateMethodList = createMethodData.data.map(m => ({ id: m.value, name: m.name }))
-                    console.log(this.taskCreateMethodList, 'map(m => ({ id: m.value, name: m.name }))')
                     this.createMethod = this.create_method || ''
                 } catch (e) {
                     errorHandler(e, this)
