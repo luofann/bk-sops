@@ -55,9 +55,9 @@
     // margin: 0 16px 2px 0;
     .dialog-Btn {
         min-width: 120px;
-        height: 32px;
-        margin-right: 10px;
-        line-height: 30px;
+        &:not(:last-child) {
+            margin-right: 10px;
+        }
     }
 }
     
