@@ -44,7 +44,7 @@
                             <span class="query-span">{{i18n.startedTime}}</span>
                             <bk-date-picker
                                 ref="bkRanger"
-                                :placeholder="'选择日期时间范围'"
+                                :placeholder="i18n.dateRange"
                                 :type="'daterange'"
                                 @change="onChangeExecuteTime">
                             </bk-date-picker>
@@ -228,7 +228,8 @@
                     taskTypePlaceholder: gettext('请选择分类'),
                     creatorPlaceholder: gettext('请输入创建人'),
                     executorPlaceholder: gettext('请输入执行人'),
-                    statusPlaceholder: gettext('请选择状态')
+                    statusPlaceholder: gettext('请选择状态'),
+                    dateRange: gettext('选择日期时间范围')
                 },
                 taskBasicInfoLoading: true,
                 listLoading: true,

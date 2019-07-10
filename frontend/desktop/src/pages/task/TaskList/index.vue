@@ -37,36 +37,16 @@
                     <div class="task-query-content">
                         <div class="query-content">
                             <span class="query-span">{{i18n.start_time}}</span>
-                            <!-- <bk-date-range
-                                ref="bkRanger"
-                                :range-separator="'-'"
-                                :quick-select="false"
-                                :start-date.sync="executeStartTime"
-                                :end-date.sync="executeEndTime"
-                                @change="onChangeExecuteTime">
-                            </bk-date-range> -->
                             <bk-date-picker
                                 ref="bkRanger"
                                 v-model="TimeRange"
-                                :placeholder="'选择日期时间范围'"
+                                :placeholder="i18n.dateRange"
                                 :type="'daterange'"
                                 @change="onChangeExecuteTime">
                             </bk-date-picker>
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.task_type}}</span>
-                            <!-- <bk-selector
-                                :placeholder="i18n.taskTypePlaceholder"
-                                :is-loading="taskBasicInfoLoading"
-                                :list="taskCategory"
-                                :selected.sync="taskSync"
-                                :setting-key="'value'"
-                                :display-key="'name'"
-                                :searchable="true"
-                                :allow-clear="true"
-                                @clear="onClearCategory"
-                                @item-selected="onSelectedCategory">
-                            </bk-selector> -->
                             <bk-select
                                 v-model="taskSync"
                                 class="bk-select-inline"
@@ -86,18 +66,6 @@
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.createMethod}}</span>
-                            <!-- <bk-selector
-                                :placeholder="i18n.createMethodPlaceholder"
-                                :list="taskCreateMethodList"
-                                :is-loading="taskBasicInfoLoading"
-                                :selected="createMethod"
-                                :allow-clear="true"
-                                :searchable="true"
-                                :setting-key="'value'"
-                                :display-key="'name'"
-                                @clear="onClearCreateMethod"
-                                @item-selected="onSelectedCreateMethod">
-                            </bk-selector> -->
                             <bk-select
                                 v-model="createMethod"
                                 class="bk-select-inline"
@@ -117,7 +85,6 @@
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.creator}}</span>
-                            <!-- <input class="search-input" v-model="creator" :placeholder="i18n.creatorPlaceholder" /> -->
                             <bk-input
                                 v-model="creator"
                                 class="bk-input-inline"
@@ -127,7 +94,6 @@
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.executor}}</span>
-                            <!-- <input class="search-input" v-model="executor" :placeholder="i18n.executorPlaceholder" /> -->
                             <bk-input
                                 v-model="executor"
                                 class="bk-input-inline"
@@ -137,15 +103,6 @@
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.status}}</span>
-                            <!-- <bk-selector
-                                :placeholder="i18n.statusPlaceholder"
-                                :list="statusList"
-                                :selected.sync="statusSync"
-                                :allow-clear="true"
-                                :searchable="true"
-                                @clear="onClearStatus"
-                                @item-selected="onSelectedStatus">
-                            </bk-selector> -->
                             <bk-select
                                 v-model="statusSync"
                                 class="bk-select-inline"
@@ -222,11 +179,6 @@
                     <div class="page-info">
                         <span> {{i18n.total}} {{totalCount}} {{i18n.item}}{{i18n.comma}} {{i18n.currentPageTip}} {{currentPage}} {{i18n.page}}</span>
                     </div>
-                    <!-- <bk-paging
-                        :cur-page.sync="currentPage"
-                        :total-page="totalPage"
-                        @page-change="onPageChange">
-                    </bk-paging> -->
                     <bk-pagination
                         :current.sync="currentPage"
                         :count="totalCount"
@@ -256,20 +208,6 @@
             @confirm="onCloneConfirm"
             @cancel="onCloneCancel">
         </TaskCloneDialog>
-        <!-- <bk-dialog
-            :quick-close="false"
-            :has-header="true"
-            :ext-cls="'common-dialog'"
-            :title="i18n.delete"
-            width="400"
-            padding="30px"
-            :is-show.sync="isDeleteDialogShow"
-            @confirm="onDeleteConfirm"
-            @cancel="onDeleteCancel">
-            <div slot="content" class="dialog-content" v-bkloading="{ isLoading: pending.delete, opacity: 1 }">
-                {{i18n.deleleTip + '"' + theDeleteTaskName + '"?'}}
-            </div>
-        </bk-dialog> -->
         <bk-dialog
             width="400"
             ext-cls="common-dialog"
@@ -371,7 +309,8 @@
                     advanceSearch: gettext('高级搜索'),
                     executing: gettext('执行中'),
                     pauseState: gettext('暂停'),
-                    create: gettext('新建')
+                    create: gettext('新建'),
+                    dateRange: gettext('选择日期时间范围')
                 },
                 executeStartTime: undefined,
                 executeEndTime: undefined,

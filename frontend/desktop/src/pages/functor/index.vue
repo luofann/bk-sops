@@ -47,7 +47,7 @@
                             <span class="query-span">{{i18n.billTime}}</span>
                             <bk-date-picker
                                 ref="bkRanger"
-                                :placeholder="'选择日期时间范围'"
+                                :placeholder="i18n.dateRange"
                                 :type="'daterange'"
                                 @change="onChangeExecuteTime">
                             </bk-date-picker>
@@ -283,7 +283,8 @@
                     functorTypePlaceholder: gettext('请选择分类'),
                     creatorPlaceholder: gettext('请输入提单人'),
                     query: gettext('搜索'),
-                    reset: gettext('清空')
+                    reset: gettext('清空'),
+                    dateRange: gettext('选择日期时间范围')
                 },
                 listLoading: true,
                 selectedCcId: '',
