@@ -204,7 +204,6 @@
                         template_id: this.appData.appTemplate
                     }
                     this.schemeList = await this.loadTaskScheme(data)
-                    console.log(this.schemeList, 'ssssssss')
                     this.schemeLoading = false
                 } catch (e) {
                     errorHandler(e, this)
