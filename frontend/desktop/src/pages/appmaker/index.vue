@@ -72,7 +72,6 @@
             </div>
         </div>
         <AppEditDialog
-            v-if="isEditDialogShow"
             :is-edit-dialog-show="isEditDialogShow"
             :is-create-new-app="isCreateNewApp"
             :cc_id="cc_id"
