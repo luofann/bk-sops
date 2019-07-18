@@ -80,13 +80,14 @@
                     </tbody>
                 </table>
                 <div class="table-pagination" v-if="isPaginationShow">
-                    <bk-paging
-                        :size="small"
-                        :location="'right'"
-                        :cur-page.sync="currentPage"
-                        :total-page="totalPage"
-                        @page-change="onPageChange">
-                    </bk-paging>
+                    <bk-pagination
+                        :current.sync="currentPage"
+                        :count="totalCount"
+                        :limit="listCountPerPage"
+                        :limit-list="[15,20,30]"
+                        :show-limit="false"
+                        @change="onPageChange">
+                    </bk-pagination>
                 </div>
                 <span v-show="dataError" class="common-error-tip error-info">{{i18n.notEmpty}}</span>
             </div>
@@ -145,6 +146,7 @@
                 copyText: '',
                 isPaginationShow: totalPage > 1,
                 currentPage: 1,
+                totalCount: this.staticIps.length,
                 totalPage: totalPage,
                 listCountPerPage: listCountPerPage,
                 listInPage: this.staticIps.slice(0, listCountPerPage),
