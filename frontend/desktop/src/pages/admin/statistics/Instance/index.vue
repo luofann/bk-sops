@@ -17,17 +17,6 @@
                     <div class="content-title">{{i18n.taskCategory}}</div>
                     <div class="content-date">
                         <div class="content-date-business">
-                            <!-- <bk-selector
-                                :list="businessList"
-                                :display-key="'cc_name'"
-                                :setting-name="'cc_id'"
-                                :search-key="'cc_name'"
-                                :setting-key="'cc_id'"
-                                :selected.sync="businessSelected"
-                                :searchable="true"
-                                :allow-clear="true"
-                                @item-selected="onInstanceCategory">
-                            </bk-selector> -->
                             <bk-select
                                 v-model="businessSelected"
                                 class="bk-select-inline"
@@ -43,23 +32,14 @@
                             </bk-select>
                         </div>
                         <div class="content-date-picker" @click="onDatePickerClick">
-                            <!-- <bk-date-range
-                                ref="datePickerRef"
-                                :quick-select="true"
-                                :start-date="categoryStartTime"
-                                :end-date="categoryEndTime"
-                                :end-date-max="endDateMax"
-                                @close="onShutTimeSelector"
-                                @change="onChangeCategoryTime">
-                            </bk-date-range> -->
                             <bk-date-picker
                                 ref="datePickerRef"
+                                v-model="categoryTime"
                                 class="bk-date-picker-common"
                                 :placeholder="i18n.choice"
                                 :type="'daterange'"
                                 @change="onChangeCategoryTime">
                             </bk-date-picker>
-                            <!-- <i :class="['bk-icon icon-angle-down', { 'icon-flip': showClassifyDatePanel }]"></i> -->
                         </div>
                     </div>
                 </div>
@@ -70,18 +50,6 @@
                     <div class="content-title">{{i18n.ownBusiness}}</div>
                     <div class="content-statistics">
                         <div class="content-business">
-                            <!-- <bk-selector
-                                :list="categoryList"
-                                :display-key="'name'"
-                                :setting-name="'value'"
-                                :search-key="'name'"
-                                :setting-key="'value'"
-                                :selected.sync="categorySelected"
-                                :placeholder="i18n.choice"
-                                :searchable="true"
-                                :allow-clear="true"
-                                @item-selected="onInstanceBizCcId">
-                            </bk-selector> -->
                             <bk-select
                                 v-model="selectedCcId"
                                 class="bk-select-inline"
@@ -98,24 +66,14 @@
                             </bk-select>
                         </div>
                         <div class="content-business-picker" @click="onInstanceClick">
-                            <!-- <bk-date-range
-                                ref="businessPickerRef"
-                                position="bottom-left"
-                                :quick-select="true"
-                                :start-date="businessStartTime"
-                                :end-date="businessEndTime"
-                                :end-date-max="endDateMax"
-                                @close="onShutTimeSelector"
-                                @change="onChangeBusinessTime">
-                            </bk-date-range> -->
                             <bk-date-picker
                                 ref="businessPickerRef"
+                                v-model="businessTime"
                                 class="bk-date-picker-common"
                                 :placeholder="i18n.choice"
                                 :type="'daterange'"
                                 @change="onChangeBusinessTime">
                             </bk-date-picker>
-                            <!-- <i :class="['bk-icon icon-angle-down', { 'icon-flip': showBusinessDatePanel }]"></i> -->
                         </div>
                     </div>
                 </div>
@@ -128,18 +86,6 @@
                 <div class="content-task-instance">
                     <div class="content-instance-time">
                         <!--业务选择-->
-                        <!-- <bk-selector
-                            :list="businessList"
-                            :display-key="'cc_name'"
-                            :setting-name="'cc_id'"
-                            :search-key="'cc_name'"
-                            :setting-key="'cc_id'"
-                            :selected.sync="timeBusinessSelected"
-                            :placeholder="i18n.choice"
-                            :searchable="true"
-                            :allow-clear="true"
-                            @item-selected="onChangeTimeTypeBusiness">
-                        </bk-selector> -->
                         <bk-select
                             v-model="timeBusinessSelected"
                             class="bk-select-inline"
@@ -157,18 +103,6 @@
                     </div>
                     <div class="content-instance-time">
                         <!--分类选择-->
-                        <!-- <bk-selector
-                            :list="categoryList"
-                            :display-key="'name'"
-                            :setting-name="'value'"
-                            :search-key="'name'"
-                            :setting-key="'value'"
-                            :selected.sync="timeCategorySelected"
-                            :placeholder="i18n.choice"
-                            :searchable="true"
-                            :allow-clear="true"
-                            @item-selected="onChangeTimeTypeCategory">
-                        </bk-selector> -->
                         <bk-select
                             v-model="timeCategorySelected"
                             class="bk-select-inline"
@@ -185,38 +119,17 @@
                         </bk-select>
                     </div>
                     <div class="content-date-picker" @click="onTimePickerClick">
-                        <!-- <bk-date-range
-                            ref="timePickerRef"
-                            position="bottom-left"
-                            :quick-select="true"
-                            :start-date="timeTypeStartTime"
-                            :end-date="timeTypeEndTime"
-                            :end-date-max="endDateMax"
-                            @close="onShutTimeSelector"
-                            @change="onInstanceTime">
-                        </bk-date-range> -->
                         <bk-date-picker
                             ref="timePickerRef"
+                            v-model="timeTypeTime"
                             class="bk-date-picker-common"
                             :placeholder="i18n.choice"
                             :type="'daterange'"
                             @change="onInstanceTime">
                         </bk-date-picker>
-                        <!-- <i :class="['bk-icon icon-angle-down',{ 'icon-flip': choiceDownShow }]"></i> -->
                     </div>
                     <div class="content-instance-time date-scope">
                         <!--时间维度选择-->
-                        <!-- <bk-selector
-                            :list="taskDimensionArray"
-                            :display-key="'name'"
-                            :setting-name="'value'"
-                            :search-key="'name'"
-                            :setting-key="'value'"
-                            :selected.sync="choiceDate"
-                            :placeholder="i18n.choice"
-                            :allow-clear="true"
-                            @item-selected="onChangeTimeType">
-                        </bk-selector> -->
                         <bk-select
                             v-model="choiceDate"
                             class="bk-select-inline"
@@ -237,22 +150,14 @@
             <vertical-bar-chart :time-type-list="instanceTypeData" :total-value="instanceTypeTotal"></vertical-bar-chart>
         </div>
         <div class="content-process-detail">
-            <!-- <bk-tab :type="'fill'" :active-name="tabName" @tab-changed="onChangeTabPanel"> -->
             <bk-tab :type="'card'" :active="tabName" @tab-change="onChangeTabPanel">
-                <!-- <bk-tabpanel name="taskDetails" :title="i18n.taskDetail"> -->
                 <bk-tab-panel name="taskDetails" :label="i18n.taskDetail">
                     <div class="content-wrap-detail">
                         <div class="content-wrap-from">
                             <div class="content-wrap-select">
                                 <label class="content-detail-label">{{i18n.timeLimit}}</label>
-                                <!-- <bk-date-range
-                                    :quick-select="true"
-                                    :start-date="tableStartTime"
-                                    :end-date="tableEndTime"
-                                    :end-date-max="endDateMax"
-                                    @change="onInstanceNode">
-                                </bk-date-range> -->
                                 <bk-date-picker
+                                    v-model="tableTime"
                                     class="bk-date-picker-common"
                                     :placeholder="i18n.choice"
                                     :type="'daterange'"
@@ -261,27 +166,12 @@
                             </div>
                             <div class="content-wrap-select">
                                 <label class="content-detail-label">{{i18n.choiceBusiness}}</label>
-                                <!-- <bk-selector
-                                    :list="allBusinessList"
-                                    :display-key="'cc_name'"
-                                    :setting-name="'cc_id'"
-                                    :search-key="'cc_name'"
-                                    :setting-key="'cc_id'"
-                                    :selected.sync="selectedCcId"
-                                    :placeholder="i18n.choice"
-                                    :searchable="true"
-                                    :allow-clear="true"
-                                    @change="onInstanceNode"
-                                    @clear="onClearBizCcId"
-                                    @item-selected="onSelectedBizCcId">
-                                </bk-selector> -->
                                 <bk-select
                                     v-model="selectedCcId"
                                     class="bk-select-inline"
                                     :popover-width="260"
                                     :searchable="true"
                                     :placeholder="i18n.choice"
-                                    @change="onInstanceNode"
                                     @clear="onClearBizCcId"
                                     @selected="onSelectedBizCcId">
                                     <bk-option
@@ -294,27 +184,12 @@
                             </div>
                             <div class="content-wrap-select">
                                 <label class="content-detail-label">{{i18n.choiceCategory}}</label>
-                                <!-- <bk-selector
-                                    :list="categorys"
-                                    :display-key="'name'"
-                                    :setting-name="'value'"
-                                    :search-key="'name'"
-                                    :setting-key="'value'"
-                                    :selected.sync="selectedCategory"
-                                    :placeholder="i18n.choice"
-                                    :searchable="true"
-                                    :allow-clear="true"
-                                    @change="onInstanceNode"
-                                    @clear="onClearCategory"
-                                    @item-selected="onSelectedCategory">
-                                </bk-selector> -->
                                 <bk-select
                                     v-model="selectedCategory"
                                     class="bk-select-inline"
                                     :popover-width="260"
                                     :searchable="true"
                                     :placeholder="i18n.choice"
-                                    @change="onInstanceNode"
                                     @clear="onClearCategory"
                                     @selected="onSelectedCategory">
                                     <bk-option
@@ -344,15 +219,9 @@
                         <div class="content-wrap-from">
                             <div class="content-wrap-select">
                                 <label class="content-detail-label">{{i18n.timeLimit}}</label>
-                                <!-- <bk-date-range
-                                    :quick-select="true"
-                                    :start-date="tableStartTime"
-                                    :end-date="tableEndTime"
-                                    :end-date-max="endDateMax"
-                                    @change="onInstanceDetailsData">
-                                </bk-date-range> -->
                                 <bk-date-picker
                                     class="bk-date-picker-common"
+                                    v-model="tableTime"
                                     :placeholder="i18n.choice"
                                     :type="'daterange'"
                                     @change="onInstanceDetailsData">
@@ -360,27 +229,12 @@
                             </div>
                             <div class="content-wrap-select">
                                 <label class="content-detail-label">{{i18n.choiceBusiness}}</label>
-                                <!-- <bk-selector
-                                    :list="allBusinessList"
-                                    :display-key="'cc_name'"
-                                    :setting-name="'cc_id'"
-                                    :search-key="'cc_name'"
-                                    :setting-key="'cc_id'"
-                                    :selected.sync="selectedCcId"
-                                    :placeholder="i18n.choice"
-                                    :searchable="true"
-                                    :allow-clear="true"
-                                    @change="onInstanceDetailsData"
-                                    @clear="onClearBizCcId"
-                                    @item-selected="onSelectedBizCcId">
-                                </bk-selector> -->
                                 <bk-select
                                     v-model="selectedCcId"
                                     class="bk-select-inline"
                                     :popover-width="260"
                                     :searchable="true"
                                     :placeholder="i18n.choice"
-                                    @change="onInstanceDetailsData"
                                     @clear="onClearBizCcId"
                                     @selected="onSelectedBizCcId">
                                     <bk-option
@@ -393,27 +247,12 @@
                             </div>
                             <div class="content-wrap-select">
                                 <label class="content-detail-label">{{i18n.choiceCategory}}</label>
-                                <!-- <bk-selector
-                                    :list="categorys"
-                                    :display-key="'name'"
-                                    :setting-name="'value'"
-                                    :search-key="'name'"
-                                    :setting-key="'value'"
-                                    :selected.sync="selectedCategory"
-                                    :placeholder="i18n.choice"
-                                    :searchable="true"
-                                    :allow-clear="true"
-                                    @change="onInstanceDetailsData"
-                                    @clear="onClearCategory"
-                                    @item-selected="onSelectedCategory">
-                                </bk-selector> -->
                                 <bk-select
                                     v-model="selectedCategory"
                                     class="bk-select-inline"
                                     :popover-width="260"
                                     :searchable="true"
                                     :placeholder="i18n.choice"
-                                    @change="onInstanceDetailsData"
                                     @clear="onClearCategory"
                                     @selected="onSelectedCategory">
                                     <bk-option
@@ -615,14 +454,9 @@
                 instanceType: 'day',
                 selectedCcId: '',
                 selectedCategory: '',
-                // categoryStartTime: undefined,
                 categoryTime: [],
                 choiceBusiness: undefined,
-                // tableStartTime: undefined,
                 tableTime: [],
-                // tableEndTime: undefined,
-                // businessStartTime: undefined,
-                // businessEndTime: undefined,
                 businessTime: [],
                 choiceCategory: '',
                 endDateMax: '',
@@ -632,7 +466,6 @@
                 choiceTimeTypeCategory: undefined,
                 choiceTimeTypeBusinessName: '',
                 choiceTimeTypeBusiness: undefined,
-                // timeTypeStartTime: undefined,
                 timeTypeTime: [],
                 isInstanceTypeLoading: false,
                 instanceTypeTotal: 0,
@@ -697,7 +530,7 @@
                 this.nodeOrderBy = column[0].prop ? order + column[0].prop : '-instanceId'
                 this.onInstanceNode()
             },
-            onInstanceCategory (business, name) {
+            onInstanceCategory (business) {
                 if (business) {
                     if (business === this.choiceBusiness) {
                         // 相同的内容不需要再次查询
@@ -721,7 +554,7 @@
                 }
                 this.statisticsCategory(data)
             },
-            onInstanceBizCcId (category, name) {
+            onInstanceBizCcId (category) {
                 if (category) {
                     if (category === this.choiceCategory) {
                         // 相同的内容不需要再次查询
@@ -751,7 +584,7 @@
                     return
                 }
                 this.isNodeLoading = true
-                if (value) {
+                if (value instanceof Array) {
                     this.tableTime = value
                     this.resetPageIndex()
                 }
@@ -768,7 +601,6 @@
                     pageIndex: this.nodePageIndex,
                     limit: this.nodeLimit
                 }
-                debugger
                 try {
                     this.instanceDataTableData(data)
                 } catch (e) {
@@ -867,9 +699,7 @@
                     return
                 }
                 this.isDetailsLoading = true
-                if (value) {
-                    // this.tableStartTime = value[0]
-                    // this.tableEndTime = value[1]
+                if (value instanceof Array) {
                     this.tableTime = value
                     this.resetPageIndex()
                 }
@@ -901,20 +731,6 @@
                 }
             },
             getDateTime () {
-                // const date = new Date()
-                // date.setHours(0, 0, 0)
-                // const endTime = moment(date).format('YYYY-MM-DD')
-                // this.tableEndTime = endTime
-                // this.categoryEndTime = endTime
-                // this.businessEndTime = endTime
-                // this.endDateMax = endTime
-                // this.timeTypeEndTime = endTime
-                // date.setTime(date.getTime() - 3600 * 1000 * 24 * 30)
-                // const startTime = moment(date).format('YYYY-MM-DD')
-                // this.tableStartTime = startTime
-                // this.categoryStartTime = startTime
-                // this.businessStartTime = startTime
-                // this.timeTypeStartTime = startTime
                 const date = new Date()
                 const endTime = moment(date).format('YYYY-MM-DD HH:mm:ss')
                 this.tableTime[1] = endTime
@@ -978,8 +794,6 @@
             },
             onChangeBusinessTime (value) {
                 if (value) {
-                    // this.businessStartTime = value[0]
-                    // this.businessEndTime = value[1]
                     this.businessTime = value
                 }
                 this.onInstanceBizCcId(null)
