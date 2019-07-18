@@ -34,11 +34,11 @@
                             v-model="schemeName"
                             v-validate="schemeNameRule">
                         </BaseInput>
-                        <bk-button type="success" size="small" @click="onAddScheme">{{i18n.affirm}}</bk-button>
+                        <bk-button theme="success" size="small" @click="onAddScheme">{{i18n.affirm}}</bk-button>
                         <bk-button size="small" @click="onCancelScheme">{{i18n.actionCancel}}</bk-button>
                         <span v-if="errors.has('schemeName')" class="common-error-tip error-msg">{{ errors.first('schemeName') }}</span>
                     </div>
-                    <bk-button type="primary" v-else :class="['save-scheme-btn', { 'disabled-btn': isPreviewMode }]" @click="onShowSchemeDialog">{{ i18n.newSchema }}</bk-button>
+                    <bk-button theme="primary" v-else :class="['save-scheme-btn', { 'disabled-btn': isPreviewMode }]" @click="onShowSchemeDialog">{{ i18n.newSchema }}</bk-button>
                 </div>
                 <div class="scheme-content">
                     <ul class="schemeList">
@@ -61,11 +61,7 @@
                         <span>
                             {{i18n.previewMode}}
                         </span>
-                        <bk-switcher
-                            size="small"
-                            :selected="isPreviewMode"
-                            @change="onChangePreviewNode">
-                        </bk-switcher>
+                        <bk-switcher size="small" v-model="isPreviewMode" @change="onChangePreviewNode"></bk-switcher>
                     </div>
                 </div>
             </div>
