@@ -19,7 +19,11 @@
                     }]"
                 v-if="isSchemeShow">
                 <div class="scheme-combine-shape" @click="togglePanel">
-                    <i class="common-icon-paper" v-bktooltips.top="i18n.schema"></i>
+                    <i class="common-icon-paper" v-bk-tooltips="{
+                        content: i18n.schema,
+                        showOnInit: true,
+                        placements: ['top']
+                    }"></i>
                 </div>
             </div>
             <div class="node-select-scheme" v-if="isSchemeShow && showPanel">
