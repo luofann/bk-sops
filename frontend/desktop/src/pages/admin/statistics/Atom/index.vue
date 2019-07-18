@@ -750,16 +750,6 @@
                 }
             },
             getDateTime () {
-                // const date = new Date()
-                // date.setHours(0, 0, 0)
-                // const endTime = moment(date).format('YYYY-MM-DD')
-                // this.tableEndTime = endTime
-                // this.businessEndTime = endTime
-                // this.endDateMax = endTime
-                // date.setTime(date.getTime() - 3600 * 1000 * 24 * 30)
-                // const startTime = moment(date).format('YYYY-MM-DD')
-                // this.tableStartTime = startTime
-                // this.businessStartTime = startTime
                 const date = new Date()
                 const endTime = moment(date).format('YYYY-MM-DD HH:mm:ss')
                 this.tableTime[1] = endTime
