@@ -97,7 +97,7 @@
                             <td class="periodic-name" :title="item.name">
                                 <router-link
                                     :title="item.task_template_name"
-                                    :to="`/template/edit/${cc_id}/?template_id=${item.template_id}`">
+                                    :to="`/template/edit/${cc_id}/?template_id=${item.template_id}&entrance=periodicTask`">
                                     {{item.task_template_name}}
                                 </router-link>
                             </td>
@@ -174,6 +174,7 @@
             :business-info-loading="businessInfoLoading"
             :create-entrance="false"
             :task-category="taskCategory"
+            :dialog-title="i18n.dialogTitle"
             @onCreateTaskCancel="onCreateTaskCancel">
         </TaskCreateDialog>
         <ModifyPeriodicDialog
@@ -222,6 +223,7 @@
             return {
                 i18n: {
                     createPeriodTask: gettext('新建'),
+                    dialogTitle: gettext('新建周期任务'),
                     lastRunAt: gettext('上次运行时间'),
                     periodicRule: gettext('周期规则'),
                     periodicTask: gettext('周期任务'),
@@ -445,10 +447,6 @@
 <style lang='scss'>
 @import '@/scss/config.scss';
 .periodic-container {
-    min-width: 1320px;
-    padding-top: 50px;
-    min-height: calc(100% - 50px);
-    background: #f4f7fa;
 }
 .list-wrapper {
     padding: 0 60px;

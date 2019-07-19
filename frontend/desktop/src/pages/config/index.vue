@@ -126,7 +126,7 @@
 <style lang="scss" scoped>
 @import '@/scss/config.scss';
 .config-page {
-    padding: 50px 60px 0 60px;
+    padding: 0px 60px 0 60px;
     min-width: 1320px;
     min-height: calc(100% - 50px);
     background: #f4f7fa;
@@ -166,11 +166,10 @@
         color: #c4c6cc;
         position: relative;
         top: 3px;
-        left: 5px;
+        left: 6px;
     }
     .force-tooltip {
         position: relative;
-        left: 460px;
     }
     .icon-info-circle:hover {
         color: #f4aa1a

@@ -337,18 +337,18 @@
             onAppmakerHandleSizeChange (limit) {
                 this.appmakerPageIndex = 1
                 this.appmakerLimit = limit
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
             onAppmakerHandleIndexChange (pageIndex) {
                 this.appmakerPageIndex = pageIndex
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
             onAppmakerHandleSort (column, prop, order) {
                 order = column[0].order === 'ascending' ? '' : '-'
                 this.appmakerOrderBy = column[0].prop ? order + column[0].prop : '-templateId'
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
-            onAppMarkerCategory (business, name) {
+            onAppMakerCategory (business, name) {
                 if (business) {
                     if (business === this.choiceBusiness) {
                         // 相同的内容不需要再次查询
@@ -372,7 +372,7 @@
                 }
                 this.appMakerData(data)
             },
-            onAppMarkerBizCcid (category, name) {
+            onAppMakerBizCcid (category, name) {
                 if (category) {
                     if (category === this.choiceCategory) {
                         // 相同的内容不需要再次查询
@@ -483,7 +483,7 @@
                 }
                 this.category = name
                 this.resetPageIndex()
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
             onSelectedBizCcId (name, value) {
                 if (this.bizCcId === name) {
@@ -491,31 +491,31 @@
                 }
                 this.bizCcId = name
                 this.resetPageIndex()
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
             onClearBizCcId () {
                 this.selectedCcId = -1
                 this.bizCcId = undefined
                 this.resetPageIndex()
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
             onClearCategory () {
                 this.selectedCategory = -1
                 this.category = undefined
                 this.resetPageIndex()
-                this.onAppMarkerInstance()
+                this.onAppMakerInstance()
             },
             onChangeCategoryTime (value) {
                 if (value) {
                     this.categoryTime = value
                 }
-                this.onAppMarkerCategory(null)
+                this.onAppMakerCategory(null)
             },
             onChangeBusinessTime (value) {
                 if (value) {
                     this.businessTime = value
                 }
-                this.onAppMarkerBizCcid(null)
+                this.onAppMakerBizCcid(null)
             },
             resetPageIndex () {
                 this.appmakerPageIndex = 1

@@ -329,7 +329,7 @@
                 isFinished: undefined,
                 statusSync: '',
                 taskCreateMethodList: [],
-                createMethod: ''
+                createMethod: this.create_method || ''
             }
         },
         computed: {
@@ -622,10 +622,6 @@
 <style lang='scss' scoped>
 @import '@/scss/config.scss';
 .task-container {
-    min-width: 1320px;
-    min-height: calc(100% - 100px);
-    padding-top: 50px;
-    background: #f4f7fa;
     .dialog-content {
         word-break: break-all;
     }
@@ -829,6 +825,10 @@
         }
         .task-executor {
             width: 110px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-break: break-all;
+            overflow: hidden;
         }
         .task-method {
             width: 120px;

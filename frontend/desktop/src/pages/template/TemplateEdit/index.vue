@@ -42,7 +42,7 @@
             <NodeConfig
                 ref="nodeConfig"
                 :cc_id="cc_id"
-                v-if="isNodeConfigPanelShow"
+                v-show="isNodeConfigPanelShow"
                 :template_id="template_id"
                 :single-atom="singleAtom"
                 :sub-atom="subAtom"
@@ -905,7 +905,7 @@
             },
             // 重新获得缓存后，更新 dom data[raw]上绑定的数据
             upDataAllNodeInfo () {
-                const nodes = this.draftArray[0].data.template.activities
+                const nodes = this.activities
                 Object.keys(nodes).forEach((node, index) => {
                     this.onUpdateNodeInfo(node, {
                         status: '',
@@ -945,10 +945,7 @@
     @import '@/scss/config.scss';
     .template-page {
         position: relative;
-        top: 50px;
-        min-width: 1320px;
-        min-height: 600px;
-        height: calc(100% - 50px);
+        height: 100%;
         overflow: hidden;
     }
     .pipeline-canvas-wrapper {

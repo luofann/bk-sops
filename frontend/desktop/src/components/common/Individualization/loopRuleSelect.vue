@@ -60,6 +60,8 @@
                             </bk-input>
                             <!-- <BaseInput
                                 v-model.number="item.loop.inter"
+                                v-validate="{ required: true, integer: true }"
+                                name="interval"
                                 class="loop-time"
                                 @blur="renderRule()" /> -->
                             <bk-input
@@ -75,9 +77,9 @@
                                 class="common-icon-tooltips month-tips top-start"></i>
                             <!-- startInput 错误提示 -->
                             <div
-                                v-show="errors.has(item.key + 'Rule')"
+                                v-show="errors.has(item.key + 'Rule') || errors.has('interval')"
                                 class="local-error-tip error-msg">
-                                {{ errors.first(item.key + 'Rule') }}
+                                {{ errors.first(item.key + 'Rule') || errors.first('interval') }}
                             </div>
                         </div>
                         <!-- 指定 -->
@@ -128,8 +130,7 @@
                     v-model="periodicCron"
                     v-validate="{ required: true, cronRlue: true }"
                     name="periodicCron"
-                    class="step-form-content-size"
-                    :placeholder="i18n.placeholder" />
+                    class="step-form-content-size" />
             </div>
         </div>
         <i class="common-icon-tooltips rule-tips" v-bk-tooltips="ruleTipsHtmlConfig"></i>
@@ -234,7 +235,7 @@
             start: gettext('从第'),
             startWeek: gettext('从星期'),
             center: gettext('开始,每隔'),
-            end: gettext('执行')
+            end: gettext('执行一次')
         },
         'appoint': {
             name: gettext('指定')
@@ -586,7 +587,7 @@ $bgBlue: #3a84ff;
             border-radius: 0;
         }
         .manual-input-btn {
-            margin-left: -4px;
+            margin-left: -5px;
         }
         .active-btn {
             background-color: $blueBtnBg;
@@ -601,6 +602,7 @@ $bgBlue: #3a84ff;
         /deep/ .tab2-nav-item {
             width: 20%;
             border-bottom: 1px solid $commonBorderColor;
+            line-height: 40px !important;
             &:not(:first-child) {
                 border-left: 1px solid $commonBorderColor !important;
             }
@@ -655,8 +657,6 @@ $bgBlue: #3a84ff;
         color: #c4c6cc;
         font-size: 14px;
         z-index: 4;
-        .ui-img {
-        }
         &:hover {
             color: #f4aa1a;
         }

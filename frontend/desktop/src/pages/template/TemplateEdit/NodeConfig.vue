@@ -157,23 +157,10 @@
                                 <td class="output-name">{{item.name}}</td>
                                 <td class="output-key">{{item.key}}</td>
                                 <td class="output-checkbox">
-                                    <!-- <bk-tooltip
-                                        :content="item.hook ? i18n.cancelHook : i18n.hook"
-                                        placement="left">
-                                        <BaseCheckbox
-                                            :is-checked="item.hook"
-                                            @checkCallback="onOutputHookChange(item.name, item.key, $event)">
-                                        </BaseCheckbox>
-                                    </bk-tooltip> -->
                                     <span
                                         v-bk-tooltips="{
                                             content: item.hook ? i18n.cancelHook : i18n.hook,
                                             placements: ['left'] }">
-                                        <!-- <BaseCheckbox
-                                            :is-checked="item.hook"
-                                            
-                                            @checkCallback="onOutputHookChange(item.name, item.key, $event)">
-                                        </BaseCheckbox> -->
                                         <bk-checkbox :value="item.hook" @change="onOutputHookChange(item.name, item.key, $event)"></bk-checkbox>
                                     </span>
                                     
@@ -469,8 +456,10 @@
             ]),
             initData () {
                 this.nodeConfigData = tools.deepClone(this.activities[this.nodeId])
-                this.getNodeFormData() // get template activity information
-                this.getConfig(this.nodeConfigData.version) // load node config data
+                if (this.nodeConfigData) {
+                    this.getNodeFormData() // get template activity information
+                    this.getConfig(this.nodeConfigData.version) // load node config data
+                }
             },
             /**
              * 加载标准插件配置文件或子流程表单配置
@@ -1269,7 +1258,7 @@
     }
 }
 /deep/.icon-edit2:before {
-    content: "\e938";
+    content: '\e908';
     font-family: 'commonicon' !important;
     font-size: 16px;
     color: #546a9e;

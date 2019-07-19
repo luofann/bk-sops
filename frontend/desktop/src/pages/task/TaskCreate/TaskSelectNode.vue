@@ -13,11 +13,11 @@
     <div class="select-node-wrapper" v-bkloading="{ isLoading: loading, opacity: 1 }">
         <div class="canvas-content">
             <div
+                v-if="isSchemeShow"
                 :class="[
                     'scheme-right-header',
-                    { 'scheme-toggle-right-header': !showPanel
-                    }]"
-                v-if="isSchemeShow">
+                    { 'scheme-toggle-right-header': !showPanel }
+                ]">
                 <div class="scheme-combine-shape" @click="togglePanel">
                     <i class="common-icon-paper" v-bk-tooltips="{
                         content: i18n.schema,
@@ -80,7 +80,7 @@
                 :is-select-node="isSchemeShow"
                 :is-select-all-node="isSelectAllNode"
                 :canvas-data="canvasData"
-                @onSelectNode="onSelectNode">
+                @onToggleAllNode="onToggleAllNode">
             </pipelineCanvas>
             <NodePreview
                 v-else
@@ -202,6 +202,9 @@
             },
             isSchemeShow () {
                 return this.viewMode !== 'appmaker' && this.locations.some(item => item.optional)
+            },
+            isCommonProcess () {
+                return Number(this.$route.query.common) === 1
             }
         },
         mounted () {
@@ -241,7 +244,7 @@
                     const templateData = await this.loadTemplateData(data)
                     this.version = templateData.version
                     this.taskName = templateData.name
-                    const schemeData = await this.loadTaskScheme({ 'cc_id': this.cc_id, 'template_id': this.template_id })
+                    const schemeData = await this.loadTaskScheme({ 'cc_id': this.cc_id, 'template_id': this.template_id, 'isCommon': this.isCommonProcess })
                     if (this.viewMode === 'appmaker') {
                         const appmakerData = await this.loadAppmakerDetail(this.app_id)
                         const schemeId = Number(appmakerData.template_scheme_id)
@@ -294,6 +297,22 @@
                 return nodeId
             },
             /**
+             * 通过已选节点数据，获取排除节点的数组
+             */
+            getExcludeNodeBySelectId (data) {
+                const excludeNode = []
+                this.canvasData.locations.forEach(item => {
+                    if (
+                        this.isCanSelectNode(item)
+                        && item.optional
+                        && data.indexOf(item.id) === -1
+                    ) {
+                        excludeNode.push(item.id)
+                    }
+                })
+                return excludeNode
+            },
+            /**
              * 添加方案
              */
             onAddScheme () {
@@ -312,23 +331,28 @@
                     const excludeNode = this.getExcludeNode()
                     const selectedNodes = []
                     this.canvasData.locations.forEach(item => {
-                        if (item.type === 'tasknode' || item.type === 'subflow') {
+                        if (this.isCanSelectNode(item)) {
                             if (excludeNode.indexOf(item.id) === -1) {
                                 selectedNodes.push(item.id)
                             }
                         }
                     })
-                    this.selectedNodes = selectedNodes
+                    this.selectedNodes = selectedNodes.slice()
                     this.schemeName = this.schemeName.trim()
                     const scheme = {
                         cc_id: this.cc_id,
                         template_id: this.template_id,
                         name: this.schemeName,
-                        data: JSON.stringify(selectedNodes)
+                        data: JSON.stringify(selectedNodes),
+                        isCommon: this.isCommonProcess
                     }
                     try {
                         const newScheme = await this.createTaskScheme(scheme)
-                        const schemeData = await this.loadTaskScheme({ 'cc_id': this.cc_id, 'template_id': this.template_id })
+                        const schemeData = await this.loadTaskScheme({
+                            'cc_id': this.cc_id,
+                            'template_id': this.template_id,
+                            'isCommon': this.isCommonProcess
+                        })
                         this.setTaskScheme(schemeData)
                         this.selectedScheme = newScheme.id
                         this.lastSelectSchema = newScheme.id
@@ -351,7 +375,7 @@
             updateSelectedLocation () {
                 const pipelineCanvas = this.$refs.pipelineCanvas
                 this.canvasData.locations.forEach((item) => {
-                    if (item.type === 'tasknode' || item.type === 'subflow') {
+                    if (this.isCanSelectNode(item)) {
                         const checkState = this.selectedNodes.indexOf(item.id) > -1
                         this.$set(item, 'checked', checkState)
                         pipelineCanvas && pipelineCanvas.onUpdateNodeInfo(item.id, item)
@@ -362,7 +386,7 @@
                 const selectedNodes = []
                 this.locations.forEach(item => {
                     if (
-                        (item.type === 'tasknode' || item.type === 'subflow')
+                        this.isCanSelectNode(item)
                         && this.excludeNode.indexOf(item.id) === -1
                     ) {
                         selectedNodes.push(item.id)
@@ -377,7 +401,6 @@
                 this.selectedScheme = id
                 if (this.lastSelectSchema === id) {
                     this.lastSelectSchema = ''
-                
                     if (this.isPreviewMode) {
                         await this.getPreviewNodeData(this.template_id, true)
                     } else {
@@ -387,11 +410,13 @@
                 } else {
                     this.lastSelectSchema = id
                     try {
-                        const data = await this.getSchemeDetail(id)
+                        const data = await this.getSchemeDetail({ id: id, isCommon: this.isCommonProcess })
                         this.selectedNodes = tools.deepClone(data.data)
+                        const excludeNode = this.getExcludeNodeBySelectId(JSON.parse(this.selectedNodes))
+                        this.$emit('setExcludeNode', excludeNode)
                         this.updateSelectedLocation()
                         if (this.isPreviewMode) {
-                            await this.getPreviewNodeData(this.template_id)
+                            await this.getPreviewNodeData(this.template_id, false, excludeNode)
                         }
                     } catch (e) {
                         errorHandler(e, this)
@@ -405,8 +430,8 @@
                 if (this.isDelete) return
                 this.isDelete = true
                 try {
-                    await this.deleteTaskScheme(id)
-                    const schemeData = await this.loadTaskScheme({ 'cc_id': this.cc_id, 'template_id': this.template_id })
+                    await this.deleteTaskScheme({ id: id, isCommon: this.isCommonProcess })
+                    const schemeData = await this.loadTaskScheme({ 'cc_id': this.cc_id, 'template_id': this.template_id, isCommon: this.isCommonProcess })
                     this.setTaskScheme(schemeData)
                     this.$bkMessage({
                         message: gettext('方案删除成功'),
@@ -424,7 +449,7 @@
             onSelectAllNode () {
                 const list = []
                 this.canvasData.locations.forEach(item => {
-                    if (item.type === 'tasknode' || item.type === 'subflow') {
+                    if (this.isCanSelectNode(item)) {
                         item.checked = true
                         list.push(item.id)
                     }
@@ -437,7 +462,7 @@
              */
             onSelectNoneNode () {
                 this.canvasData.locations.forEach(item => {
-                    if (item.type === 'tasknode' || item.type === 'subflow') {
+                    if (this.isCanSelectNode(item)) {
                         item.checked = false
                     }
                 })
@@ -449,7 +474,12 @@
              */
             async onGotoParamFill () {
                 this.loading = true
-                const excludeNode = this.getExcludeNode()
+                let excludeNode = []
+                if (this.isPreviewMode) {
+                    excludeNode = this.excludeNode
+                } else {
+                    excludeNode = this.getExcludeNode()
+                }
                 try {
                     if (!this.isPreview) {
                         await this.getPreviewNodeData(this.template_id)
@@ -487,6 +517,8 @@
              */
             onChangePreviewNode (isPreview) {
                 if (isPreview) {
+                    const excludeNode = this.getExcludeNode()
+                    this.$emit('setExcludeNode', excludeNode)
                     this.isPreviewMode = true
                     this.previewBread.push({
                         data: this.template_id,
@@ -503,7 +535,7 @@
              * @params {String} templateId  模板 ID
              * @params {Boolean} isSubflow  是否为子流程预览
              */
-            async getPreviewNodeData (templateId, isSubflow = false) {
+            async getPreviewNodeData (templateId, isSubflow = false, inExcludeNode) {
                 this.previewDataLoading = true
                 this.isPreview = true
                 let excludeNode
@@ -512,7 +544,7 @@
                 } catch (e) {
                     excludeNode = this.getExecuteNodeList()
                 }
-                excludeNode = isSubflow ? [] : excludeNode
+                excludeNode = isSubflow ? [] : (inExcludeNode || excludeNode)
                 const templateSource = this.common ? 'common' : 'business'
                 const params = {
                     templateId: templateId,
@@ -543,7 +575,9 @@
                         this.previewData = previewNodeData
                         // 改变预览前的选择节点
                         this.canvasData.locations.forEach(item => {
-                            if ((item.type === 'tasknode' || item.type === 'subflow') && !(item.id in previewNodeData.activities)) {
+                            // 先还原为全部选中
+                            item.checked = true
+                            if (this.isCanSelectNode(item) && !(item.id in previewNodeData.activities)) {
                                 item.checked = false
                             }
                         })
@@ -727,7 +761,7 @@
                     return !this.selectedNodes.includes(item)
                 })
             },
-            onSelectNode (value) {
+            onToggleAllNode (value) {
                 this.isSelectAllNode = value
                 if (value) {
                     this.onSelectAllNode()
@@ -739,6 +773,9 @@
             onCancelScheme () {
                 this.schemeName = ''
                 this.taskActionShow = false
+            },
+            isCanSelectNode (node) {
+                return node.type === 'tasknode' || node.type === 'subflow'
             }
         }
     }
