@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="operation-wrapper">
-            <bk-button type="primary" @click="onSaveConfig" :loading="pending" :disabled="configLoading">{{i18n.save}}</bk-button>
+            <bk-button theme="primary" @click="onSaveConfig" :loading="pending" :disabled="configLoading">{{i18n.save}}</bk-button>
         </div>
     </div>
 </template>
