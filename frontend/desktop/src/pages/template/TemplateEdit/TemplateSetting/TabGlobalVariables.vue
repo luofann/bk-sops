@@ -128,15 +128,16 @@
             </ul>
         </div>
         <bk-dialog
-            :is-show.sync="deleteConfirmDialogShow"
-            :quick-close="false"
-            :ext-cls="'common-dialog'"
-            :title="i18n.tips"
             width="400"
-            padding="30px"
+            ext-cls="common-dialog"
+            :theme="'primary'"
+            :mask-close="false"
+            :header-position="'left'"
+            :title="i18n.tips"
+            :value="deleteConfirmDialogShow"
             @confirm="onConfirm"
             @cancel="onCancel">
-            <div slot="content">{{ i18n.confirm }}</div>
+            <div>{{ i18n.confirm }}</div>
         </bk-dialog>
     </div>
 </template>
