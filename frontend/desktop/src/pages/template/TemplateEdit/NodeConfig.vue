@@ -21,26 +21,35 @@
                     <div class="form-item form-name">
                         <label class="required">{{ atomNameType }}</label>
                         <div class="form-content">
-                            <bk-selector
-                                :tools="!isSingleAtom"
+                            <bk-select
+                                v-model="currentAtom"
+                                class="bk-select-inline"
+                                :popover-width="260"
                                 :searchable="true"
-                                :list="atomList"
-                                :selected="currentAtom"
-                                @item-selected="onAtomSelect"
-                                @edit="onJumpToProcess">
-                            </bk-selector>
+                                @selected="onAtomSelect">
+                                <bk-option
+                                    v-for="(option, index) in atomList"
+                                    :key="index"
+                                    :id="option.id"
+                                    :name="option.name">
+                                    <span v-if="!isSingleAtom">{{option.name}}</span>
+                                    <i v-if="!isSingleAtom" class="bk-icon common-icon-box-top-right-corner" @click.stop="onJumpToProcess(index)"></i>
+                                </bk-option>
+                            </bk-select>
                             <!-- 标准插件节点说明 -->
-                            <bk-tooltip v-if="atomDesc" placement="left" width="400" class="desc-tooltip">
-                                <i class="bk-icon icon-info-circle"></i>
-                                <div slot="content" style="white-space: normal;">
-                                    <div>{{atomDesc}}</div>
-                                </div>
-                            </bk-tooltip>
+                            <i class="bk-icon icon-info-circle desc-tooltip"
+                                v-if="atomDesc"
+                                v-bk-tooltips="{
+                                    content: atomDesc,
+                                    width: '400',
+                                    placements: ['left'] }">
+                            </i>
                             <!-- 子流程版本更新 -->
-                            <i
+                            <i class="common-icon-clock-inversion update-tooltip"
                                 v-if="subflowHasUpdate"
-                                class="common-icon-clock-inversion update-tooltip"
-                                v-bktooltips.left="i18n.update"
+                                v-bk-tooltips="{
+                                    content: i18n.update,
+                                    placements: ['left'] }"
                                 @click="onUpdateSubflowVersion">
                             </i>
                             <span v-show="taskTypeEmpty" class="common-error-tip error-msg">{{ atomNameType + i18n.typeEmptyTip}}</span>
@@ -81,22 +90,18 @@
                                 <i class="common-icon-dark-circle-r"></i>
                                 {{i18n.manuallyRetry}}
                             </el-checkbox>
-                            <bk-tooltip placement="left" width="400" class="error-ingored-tootip">
-                                <i class="bk-icon icon-info-circle"></i>
-                                <div slot="content">
-                                    <div class="tips-item" style="white-space: normal;">
-                                        <p>
-                                            {{ i18n.failureHandlingDetails1 }}
-                                        </p>
-                                        <p>
-                                            {{ i18n.failureHandlingDetails2 }}
-                                        </p>
-                                        <p>
-                                            {{ i18n.failureHandlingDetails3 }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </bk-tooltip>
+                            <div id="html-error-ingored-tootip" class="tips-item" style="white-space: normal;">
+                                <p>
+                                    {{ i18n.failureHandlingDetails1 }}
+                                </p>
+                                <p>
+                                    {{ i18n.failureHandlingDetails2 }}
+                                </p>
+                                <p>
+                                    {{ i18n.failureHandlingDetails3 }}
+                                </p>
+                            </div>
+                            <i v-bk-tooltips="htmlConfig" ref="tooltipsHtml" class="bk-icon icon-info-circle"></i>
                             <span v-show="manuallyEmpty" class="common-warning-tip">{{ i18n.manuallyEmpty}}</span>
                         </div>
                     </div>
@@ -152,14 +157,26 @@
                                 <td class="output-name">{{item.name}}</td>
                                 <td class="output-key">{{item.key}}</td>
                                 <td class="output-checkbox">
-                                    <bk-tooltip
+                                    <!-- <bk-tooltip
                                         :content="item.hook ? i18n.cancelHook : i18n.hook"
                                         placement="left">
                                         <BaseCheckbox
                                             :is-checked="item.hook"
                                             @checkCallback="onOutputHookChange(item.name, item.key, $event)">
                                         </BaseCheckbox>
-                                    </bk-tooltip>
+                                    </bk-tooltip> -->
+                                    <span
+                                        v-bk-tooltips="{
+                                            content: item.hook ? i18n.cancelHook : i18n.hook,
+                                            placements: ['left'] }">
+                                        <!-- <BaseCheckbox
+                                            :is-checked="item.hook"
+                                            
+                                            @checkCallback="onOutputHookChange(item.name, item.key, $event)">
+                                        </BaseCheckbox> -->
+                                        <bk-checkbox :value="item.hook" @change="onOutputHookChange(item.name, item.key, $event)"></bk-checkbox>
+                                    </span>
+                                    
                                 </td>
                             </tr>
                         </tbody>
@@ -192,7 +209,6 @@
     import { NAME_REG, STRING_LENGTH } from '@/constants/index.js'
     import NoData from '@/components/common/base/NoData.vue'
     import RenderForm from '@/components/common/RenderForm/RenderForm.vue'
-    import BaseCheckbox from '@/components/common/base/BaseCheckbox.vue'
     import BaseInput from '@/components/common/base/BaseInput.vue'
     import ReuseVarDialog from './ReuseVarDialog.vue'
 
@@ -211,7 +227,6 @@
         components: {
             NoData,
             RenderForm,
-            BaseCheckbox,
             BaseInput,
             ReuseVarDialog
         },
@@ -250,6 +265,14 @@
                     failureHandlingDetails2: gettext('手动重试：标准插件节点如果执行失败，可以人工干预，填写参数后重试节点。'),
                     failureHandlingDetails3: gettext('手动跳过：标准插件节点如果执行失败，可以人工干预，直接跳过节点的执行。'),
                     manuallyEmpty: gettext('未选择失败处理方式，标准插件节点如果执行失败，会导致任务中断后不可继续')
+                },
+                htmlConfig: {
+                    allowHtml: true,
+                    width: 400,
+                    trigger: 'mouseenter',
+                    theme: 'dark',
+                    content: '#html-error-ingored-tootip',
+                    placement: 'left'
                 },
                 atomConfigLoading: false,
                 errorCouldBeIgnored: false,
@@ -1192,7 +1215,7 @@
         position: relative;
         .desc-tooltip {
             right: 0;
-            top: 0;
+            top: 6px;
         }
         .update-tooltip {
             right: 0;
@@ -1257,5 +1280,12 @@
 }
 /deep/.icon-close {
     display: none;
+}
+.common-icon-box-top-right-corner {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 10px;
+    margin-right: 10px;
 }
 </style>

@@ -21,7 +21,6 @@
                 <div class="scheme-combine-shape" @click="togglePanel">
                     <i class="common-icon-paper" v-bk-tooltips="{
                         content: i18n.schema,
-                        showOnInit: true,
                         placements: ['top']
                     }"></i>
                 </div>
