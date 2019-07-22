@@ -22,7 +22,7 @@
                                 class="bk-select-inline"
                                 :popover-width="260"
                                 :searchable="true"
-                                @selected="onAppMarkerCategory">
+                                @selected="onAppMakerCategory">
                                 <bk-option
                                     v-for="(option, index) in businessList"
                                     :key="index"
@@ -56,7 +56,7 @@
                                 :popover-width="260"
                                 :searchable="true"
                                 :placeholder="i18n.choice"
-                                @selected="onAppMarkerBizCcid">
+                                @selected="onAppMakerBizCcid">
                                 <bk-option
                                     v-for="(option, index) in categoryList"
                                     :key="index"
@@ -92,7 +92,7 @@
                                     class="bk-date-picker-common"
                                     :placeholder="i18n.choice"
                                     :type="'daterange'"
-                                    @change="onAppMarkerInstance">
+                                    @change="onAppMakerInstance">
                                 </bk-date-picker>
                             </div>
                             <div class="content-wrap-select">
@@ -435,7 +435,7 @@
                     errorHandler(e, this)
                 }
             },
-            onAppMarkerInstance (value) {
+            onAppMakerInstance (value) {
                 if (value) {
                     this.tableTime = value
                     this.resetPageIndex()
