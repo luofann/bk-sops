@@ -34,7 +34,7 @@
                     <template v-for="operation in taskOperationBtns">
                         <bk-button
                             :class="['operation-btn', operation.action === 'revoke' ? 'revoke-btn' : 'execute-btn']"
-                            type="default"
+                            theme="default"
                             size="mini"
                             hide-text="true"
                             :icon="'common-icon ' + operation.icon"
@@ -51,7 +51,7 @@
                         :class="['params-btn', 'solid-eye', {
                             actived: nodeInfoType === 'viewParams'
                         }]"
-                        type="default"
+                        theme="default"
                         size="mini"
                         hide-text="true"
                         icon="common-icon common-icon-solid-eye params-btn-icon"
@@ -62,7 +62,7 @@
                         :class="['params-btn', {
                             actived: nodeInfoType === 'modifyParams'
                         }]"
-                        type="default"
+                        theme="default"
                         size="mini"
                         hide-text="true"
                         icon="common-icon common-icon-edit params-btn-icon"

@@ -13,14 +13,14 @@
     <div class="static-ip">
         <div v-show="!isIpAddingPanelShow" class="ip-list-panel">
             <div class="operation-area">
-                <bk-button type="default" @click="onAddPanelShow" :disabled="!editable">{{i18n.add}}</bk-button>
+                <bk-button theme="default" @click="onAddPanelShow" :disabled="!editable">{{i18n.add}}</bk-button>
                 <bk-dropdown-menu
                     v-if="isShowQuantity"
                     trigger="click"
                     :disabled="!editable"
                     @show="onDropdownShow"
                     @hide="onDropdownHide">
-                    <bk-button type="default" class="trigger-btn" slot="dropdown-trigger" :disabled="!editable">
+                    <bk-button theme="default" class="trigger-btn" slot="dropdown-trigger" :disabled="!editable">
                         <span>{{i18n.moreOperations}}</span>
                         <i :class="['bk-icon icon-angle-down',{ 'icon-flip': isDropdownShow }]"></i>
                     </bk-button>

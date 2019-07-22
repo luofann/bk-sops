@@ -103,7 +103,7 @@
             </bk-button>
             <bk-button
                 class="next-step-button"
-                type="success"
+                theme="success"
                 :disabled="disabledButton"
                 :loading="isSubmit"
                 @click="onCreateTask">
