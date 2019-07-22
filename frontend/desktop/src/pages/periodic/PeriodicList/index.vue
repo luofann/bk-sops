@@ -44,14 +44,6 @@
                         </div>
                         <div class="query-content">
                             <span class="query-span">{{i18n.enabled}}</span>
-                            <!-- <bk-selector
-                                :placeholder="i18n.enabledPlaceholder"
-                                :list="enabledList"
-                                :selected.sync="enabledSync"
-                                :allow-clear="true"
-                                @clear="onClearSelectedEnabled"
-                                @item-selected="onSelectEnabled">
-                            </bk-selector> -->
                             <bk-select
                                 class="bk-select-inline"
                                 v-model="enabledSync"
@@ -151,11 +143,6 @@
                     <div class="page-info">
                         <span> {{i18n.total}} {{totalCount}} {{i18n.item}}{{i18n.comma}} {{i18n.currentPageTip}} {{currentPage}} {{i18n.page}}</span>
                     </div>
-                    <!-- <bk-paging
-                        :cur-page.sync="currentPage"
-                        :total-page="totalPage"
-                        @page-change="onPageChange">
-                    </bk-paging> -->
                     <bk-pagination
                         :current.sync="currentPage"
                         :count="totalCount"

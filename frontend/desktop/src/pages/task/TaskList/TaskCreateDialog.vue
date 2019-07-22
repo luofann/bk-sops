@@ -1,5 +1,4 @@
 <template>
-    <!-- :ext-cls="'common-dialog'" -->
     <bk-dialog
         width="850"
         class="new-task-dialog"
@@ -15,15 +14,6 @@
             <div class="task-wrapper">
                 <div class="filtrate-wrapper">
                     <div class="task-search flow-types">
-                        <!-- <bk-selector
-                            v-if="createEntrance"
-                            :list="templateType"
-                            :search-key="'name'"
-                            :setting-key="'name'"
-                            :disabled="!categoryListPending"
-                            :selected="selectedTplType"
-                            @item-selected="onChooseTplType">
-                        </bk-selector> -->
                         <bk-select
                             v-if="createEntrance"
                             v-model="selectedTplType"
@@ -40,14 +30,6 @@
                         </bk-select>
                     </div>
                     <div class="task-search">
-                        <!-- <bk-selector
-                            :list="templateCategories"
-                            :search-key="'name'"
-                            :setting-key="'name'"
-                            :disabled="!categoryListPending"
-                            :selected="selectedTplCategory"
-                            @item-selected="onChooseTplCategory">
-                        </bk-selector> -->
                         <bk-select
                             v-model="selectedTplCategory"
                             :popover-width="260"
@@ -325,13 +307,6 @@
 .task-container {
     position: relative;
     height: 340px;
-    // .bk-select-inline {
-    //     display: inline-block;
-    //     width: 260px;
-    // }
-    // .tippy-popper .bk-select-dropdown-content {
-    //     width: 260px;
-    // }
     .task-wrapper {
         float: left;
         padding: 20px;
