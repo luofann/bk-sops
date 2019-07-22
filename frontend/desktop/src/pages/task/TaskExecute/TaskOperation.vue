@@ -41,7 +41,10 @@
                             :key="operation.action"
                             :loading="operation.loading"
                             :disabled="operation.disabled"
-                            v-bktooltips.bottom="operation.text"
+                            v-bk-tooltips="{
+                                content: operation.text,
+                                placements: ['bottom']
+                            }"
                             @click="onOperationClick(operation.action)">
                         </bk-button>
                     </template>
@@ -55,7 +58,10 @@
                         size="mini"
                         hide-text="true"
                         icon="common-icon common-icon-solid-eye params-btn-icon"
-                        v-bktooltips.bottom="i18n.params"
+                        v-bk-tooltips="{
+                            content: i18n.params,
+                            placements: ['bottom']
+                        }"
                         @click="onTaskParamsClick('viewParams')">
                     </bk-button>
                     <bk-button
@@ -66,14 +72,20 @@
                         size="mini"
                         hide-text="true"
                         icon="common-icon common-icon-edit params-btn-icon"
-                        v-bktooltips.bottom="i18n.changeParams"
+                        v-bk-tooltips="{
+                            content: i18n.changeParams,
+                            placements: ['bottom']
+                        }"
                         @click="onTaskParamsClick('modifyParams')">
                     </bk-button>
                     <router-link
                         v-if="isShowViewProcess"
                         class="jump-tpl-page-btn common-icon-link params-btn-icon"
                         target="_blank"
-                        v-bktooltips.bottom="i18n.checkFlow"
+                        v-bk-tooltips="{
+                            content: i18n.checkFlow,
+                            placements: ['bottom']
+                        }"
                         :to="getTplURL()">
                     </router-link>
                 </div>
