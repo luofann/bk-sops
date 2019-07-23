@@ -10,16 +10,6 @@
 * specific language governing permissions and limitations under the License.
 */
 <template>
-    <!-- <bk-dialog
-        width="400"
-        :theme="'primary'"
-        :mask-close="false"
-        :header-position="'center'"
-        :ext-cls="'common-dialog'"
-        :title="i18n.deleteTips"
-        :value="isDeleteDialogShow"
-        @confirm="onDeletePeriodicConfrim"
-        @cancel="onDeletePeriodicCancel"> -->
     <bk-dialog
         width="400"
         :ext-cls="'common-dialog'"

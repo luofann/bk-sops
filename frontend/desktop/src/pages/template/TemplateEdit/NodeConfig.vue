@@ -24,7 +24,6 @@
                             <bk-select
                                 v-model="currentAtom"
                                 class="bk-select-inline"
-                                :popover-width="260"
                                 :searchable="true"
                                 @selected="onAtomSelect">
                                 <bk-option
@@ -32,7 +31,7 @@
                                     :key="index"
                                     :id="option.id"
                                     :name="option.name">
-                                    <span v-if="!isSingleAtom">{{option.name}}</span>
+                                    <span v-if="!isSingleAtom" class="bk-option-name">{{option.name}}</span>
                                     <i v-if="!isSingleAtom" class="bk-icon common-icon-box-top-right-corner" @click.stop="onJumpToProcess(index)"></i>
                                 </bk-option>
                             </bk-select>
@@ -703,12 +702,14 @@
              * 处理节点配置面板和全局变量面板之外的点击事件
              */
             handleNodeConfigPanelShow (e) {
-                if (!this.isNodeConfigPanelShow || this.isReuseVarDialogShow) {
+                if (!this.isNodeConfigPanelShow
+                    || this.isReuseVarDialogShow
+                    || e.target.className.indexOf('bk-option') > -1) {
                     return
                 }
                 const settingPanel = document.querySelector('.setting-area-wrap')
                 const nodeConfig = document.querySelector('.node-config')
-                if (settingPanel && nodeConfig) {
+                if (settingPanel && this.isNodeConfigPanelShow) {
                     if ((!dom.nodeContains(settingPanel, e.target)
                         && !dom.nodeContains(nodeConfig, e.target))
                     ) {
@@ -825,7 +826,6 @@
                         template_id: Number(this.currentAtom),
                         subprocess_node_id: this.idOfNodeInConfigPanel
                     })
-
                     nodeName = data.name.replace(/\s/g, '')
                     this.subAtomConfigData.form = {}
                     this.inputAtomHook = {}
