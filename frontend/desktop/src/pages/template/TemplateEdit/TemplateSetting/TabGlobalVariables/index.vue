@@ -85,9 +85,33 @@
                     </div>
                     <div v-if="isVarTipsShow" class="variable-operating-tips">{{ varOperatingTips }}</div>
                     <ul class="variable-list" ref="variableList">
-                        <draggable class="variable-drag" :list="variableList" handle=".col-item-drag" @end="onDragEnd($event)">
+                        <!-- 系统变量 -->
+                        <template v-if="!isHideSystemVar">
                             <VariableItem
-                                v-for="(constant, index) in variableList"
+                                v-for="(constant, index) in systemConstants"
+                                :ref="`variableKey_${constant.key}`"
+                                :key="index"
+                                :outputed="outputs.indexOf(constant.key) > -1"
+                                :is-variable-editing="isVariableEditing"
+                                :constant="constant"
+                                :variable-data="variableData"
+                                :variable-type-list="variableTypeList"
+                                :the-key-of-editing="theKeyOfEditing"
+                                :the-key-of-view-cited="theKeyOfViewCited"
+                                :is-hide-system-var="isHideSystemVar"
+                                :system-constants="systemConstants"
+                                :var-operating-tips="varOperatingTips"
+                                @onChangeEdit="onChangeEdit"
+                                @onCitedNodeClick="onCitedNodeClick"
+                                @onEditVariable="onEditVariable"
+                                @onViewCitedList="onViewCitedList"
+                                @onChangeVariableOutput="onChangeVariableOutput"
+                                @onDeleteVariable="onDeleteVariable" />
+                        </template>
+                        <!-- 普通变量 -->
+                        <draggable class="variable-drag" :list="constantsList" handle=".col-item-drag" @end="onDragEnd($event)">
+                            <VariableItem
+                                v-for="(constant, index) in constantsList"
                                 :ref="`variableKey_${constant.key}`"
                                 :key="index"
                                 :outputed="outputs.indexOf(constant.key) > -1"
@@ -230,19 +254,20 @@
                 }
                 return this.constantsArray.length === 0 ? (this.isHideSystemVar || this.systemConstants.length === 0) : false
             },
-            /**
-             * 变量列表（系统变量+普通变量）
-             * 系统变量：index范围 （-1 => -n）
-             * 普通变量：index范围 （0 => n）
-             */
+            // 普通变量：index范围 （0 => n）
+            constantsList () {
+                return this.getConstantsArray(this.constants)
+            },
+            // 系统变量：index范围 （-1 => -n）
+            systemConstantsList () {
+                return this.getConstantsArray(this.systemConstants)
+            },
+            // 普通变量 + 系统变量
             variableList () {
                 if (this.isHideSystemVar) {
-                    return this.getConstantsArray(this.constants)
+                    return this.constantsList
                 }
-                return [
-                    ...this.getConstantsArray(this.systemConstants),
-                    ...this.getConstantsArray(this.constants)
-                ]
+                return [...this.systemConstantsList, ...this.constantsList]
             },
             // 操作变量提示 title
             varOperatingTips () {
@@ -251,16 +276,7 @@
                     return edit + globalVar
                 }
                 return newText + globalVar
-            },
-            systemConstantsList () {
-                const list = []
-                Object.keys(this.systemConstants).forEach(key => {
-                    list.push(this.systemConstants[key])
-                })
-                list.sort((a, b) => b.index - a.index)
-                return list
             }
-                
         },
         watch: {
             constants: {
@@ -270,6 +286,13 @@
                     this.onChangeEdit(false)
                 },
                 deep: true
+            },
+            isHideSystemVar (val) {
+                // 正在编辑的系统变量时，点击隐藏系统变量
+                if (val && this.systemConstantsList.some(m => m.key === this.theKeyOfEditing)) {
+                    this.removeContentScroll()
+                    this.onChangeEdit(false)
+                }
             }
         },
         created () {
@@ -330,7 +353,7 @@
                     this.theVersionOfEditing = version
                 }
                 this.$emit('variableDataChanged')
-
+                this.isVarTipsShow = false
                 const sortIndex = this.getSortIndex(key)
                 this.scrollPanelToView(sortIndex)
             },

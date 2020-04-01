@@ -108,7 +108,6 @@
                 :variable-type-list="variableTypeList"
                 :is-system-var="isSystemVar"
                 :is-new-variable="false"
-                :is-hide-system-var="isHideSystemVar"
                 :system-constants="systemConstants"
                 :var-operating-tips="varOperatingTips"
                 @scrollPanelToView="scrollPanelToView"
@@ -150,7 +149,6 @@
             'varOperatingTips',
             'theKeyOfEditing',
             'theKeyOfViewCited',
-            'isHideSystemVar',
             'systemConstants',
             'variableTypeList',
             'isVariableEditing'
